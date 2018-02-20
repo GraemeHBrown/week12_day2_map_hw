@@ -4,22 +4,30 @@ var MapWrapper = function (container, coords, zoom) {
         zoom: zoom
     });
     this.markers = []
-    this.content = 'Centuries of bloody history around a medieval castle, home to Crown Jewels and iconic Beefeaters.'
 }
 
-MapWrapper.prototype.addMarker = function (coords) {
+MapWrapper.prototype.addMarker = function (coords, hasInfo) {
     var marker = new google.maps.Marker({
         position: coords,
         map: this.googleMap
     });
-    this.markers.push(marker)
-    this.addInfoWindow(marker);
+    this.markers.push(marker);
+    if (hasInfo) {
+        this.addInfoWindow(marker);
+    }
+
+}
+
+MapWrapper.prototype.navigate = function () {
+    const edinCoords = {lat: 55.94705, lng: -3.2232401}
+    this.googleMap.setCenter(edinCoords);
+    this.addMarker(edinCoords, false);
 }
 
 MapWrapper.prototype.addClickEvent = function () {
     this.googleMap.addListener('click', function (event) {
         var position = {lat: event.latLng.lat(), lng: event.latLng.lng()}
-        this.addMarker(position);
+        this.addMarker(position, false);
     }.bind(this));
 }
 

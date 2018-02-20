@@ -8,11 +8,14 @@ var initialize = function(){
     // 51.5081124,-0.078138,
 
   var mainMap = new MapWrapper(mapDiv, tol, 10);
-  mainMap.addMarker(tol);
+  mainMap.addMarker(tol, true);
   // mainMap.addClickEvent();
 
   var bounceButton = document.querySelector('#button-bounce-markers')
   bounceButton.addEventListener('click', mainMap.bounceMarkers.bind(mainMap))
+
+    const navigateButton = document.getElementById('button-navigate')
+    navigateButton.addEventListener('click', mainMap.navigate.bind(mainMap))
 }
 
 window.addEventListener('load', initialize);
