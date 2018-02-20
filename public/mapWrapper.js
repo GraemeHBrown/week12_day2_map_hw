@@ -18,10 +18,20 @@ MapWrapper.prototype.addMarker = function (coords, hasInfo) {
 
 }
 
-MapWrapper.prototype.navigate = function () {
-    const edinCoords = {lat: 55.94705, lng: -3.2232401}
-    this.googleMap.setCenter(edinCoords);
-    this.addMarker(edinCoords, false);
+MapWrapper.prototype.navigate = function (coords) {
+    this.googleMap.setCenter(coords);
+    this.addMarker(coords, false);
+}
+
+MapWrapper.prototype.whereAmI = function () {
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const locationCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+            this.navigate(locationCoords);
+        }.bind(this));
+    } else {
+        console.log('geolocation not available');
+    }
 }
 
 MapWrapper.prototype.addClickEvent = function () {
